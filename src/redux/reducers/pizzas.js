@@ -1,14 +1,14 @@
 const initialState = {
     items: [],
-    isLoaded: false
+    isLoaded: false,
 };
 
 const pizzas = (state = initialState, action) => {
-    if(action.typev === 'SET_PIZZAS') {
+    if(action.type === 'SET_PIZZAS') {
         return {
-            ...state ,
-            sortBy: action.payload,
-        };
+            ...state,
+            items: action.payload,
+        }
     }
     return state;
 };
