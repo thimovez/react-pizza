@@ -4,7 +4,7 @@
 //<===/ Тут хранится логика изменяющая только фильтрацию /===>
 
 const initialState = {
-    category: 0,
+    category: null,
     sortBy: 'popular'
 };
 

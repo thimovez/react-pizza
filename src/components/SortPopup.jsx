@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react'
-
-function SortPopup({ items }) {
+import React, { useRef, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+const SortPopup = React.memo(function SortPopup({ items, activeSortType, onCLickSortType }) {
     //первая переменная контролирует скрытие, а вторая переменная сетвизибле меняет значение переменной
     // visiblePopup = false а setVisiblePopup будет менять значение фолс на то которое нам нужно и делает ререндер
     const [visiblePopup, setVisiblePopup] = useState(false);
-    const [activeItem, setActiveItem] = useState(0);
-    const activeLabel = items[activeItem].name;
+    const activeLabel = items.find(obj => obj.type === activeSortType).name;
 
 
 
@@ -29,7 +28,9 @@ function SortPopup({ items }) {
 
 
     const onSelectItem = (index) => {
-        setActiveItem(index);
+        if (onCLickSortType) {
+            onCLickSortType(index);
+        }
         setVisiblePopup(false);
     };
 
@@ -56,8 +57,8 @@ function SortPopup({ items }) {
                 {items &&
                     items.map((obj, index) => (
                     <li
-                    onClick={() => onSelectItem(index)}
-                    className={activeItem === index ? 'active' : ''}
+                    onClick={() => onSelectItem(obj.type)}
+                    className={activeSortType === obj.type ? 'active' : ''}
                     key={`${obj.type}_${index}`}>
                     {obj.name}
                     </li>
@@ -66,6 +67,17 @@ function SortPopup({ items }) {
             </div>}
         </div>
     )
-}
+});
+
+SortPopup.propTypes = {
+  activeSortType: PropTypes.string.isRequired,
+  // PropTypes.arrayOf(PropTypes.object) -- масиив обьектов
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onCLickSortType: PropTypes.func.isRequired,
+};
+
+SortPopup.defaultProps = {
+    items: [],
+};
 
 export default SortPopup
